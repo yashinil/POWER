@@ -1,12 +1,18 @@
 <?php include '../includes/connect.php'; ?>
+<?php include '../includes/session.php'; ?>
+
 
 <?php
+if (isset($_SESSION["current_user"])) {
+  $current_user = $_SESSION["current_user"];
+}
+
 error_reporting(0);
 
 if ($_POST['favourite']=="selected") {
-$sql = "INSERT INTO favourite (user_id, project_id) VALUES (5,1)";
+$sql = "INSERT INTO favourite (user_id, project_id) VALUES ({$current_user['user_id']},{$_POST['project_id']})";
 if ($conn->query($sql) === TRUE) {
-    //echo "New record created successfully";
+    echo "New record created successfully";
 } else {
     echo "Error: " . $sql . "<br>" . $conn->error;
 }
@@ -14,7 +20,7 @@ if ($conn->query($sql) === TRUE) {
 
 
 if($_POST['favourite']=="notselected"){
-$sql = "delete from favourite where user_id=5 and project_id=1";
+$sql = "delete from favourite where user_id={$current_user['user_id']} and project_id={$_POST['project_id']}";
 if ($conn->query($sql) === TRUE) {
     //echo "New record created successfully";
 } else {
@@ -25,7 +31,7 @@ if ($conn->query($sql) === TRUE) {
 
 if ($_POST["like_check"]=="selected") {
 	//echo $_POST['cnt'];
-$sql = "update project set project_likes=".($_POST['cnt']+1)." where project_id=1";
+$sql = "update project set project_likes=".($_POST['cnt']+1)." where project_id={$_POST['project_id']}";
 if ($conn->query($sql) === TRUE) {
     //echo "New record created successfully";
 } else {
@@ -35,7 +41,7 @@ if ($conn->query($sql) === TRUE) {
 
 
 if($_POST['like_check']=="notselected"){
-$sql = "update project set project_likes=".$_POST['cnt']." where project_id=1";
+$sql = "update project set project_likes=".$_POST['cnt']." where project_id={$_POST['project_id']}";
 if ($conn->query($sql) === TRUE) {
     //echo "New record created successfully";
 } else {
@@ -46,7 +52,7 @@ if ($conn->query($sql) === TRUE) {
 
 if ($_POST["report_check"]=="selected") {
 	//echo $_POST['rcnt'];
-$sql = "update project set project_reports=".($_POST['rcnt']+1)." where project_id=1";
+$sql = "update project set project_reports=".($_POST['rcnt']+1)." where project_id={$_POST['project_id']}";
 if ($conn->query($sql) === TRUE) {
     //echo "New record created successfully";
 } else {
@@ -66,7 +72,7 @@ if ($conn->query($sql) === TRUE) {
 
 
 if($_POST['comment_check']=="selected"){
-$sql = "insert into comment (project_id,comment,rating) values (1,'".$_POST['text']."','".$_POST['rate']."')";
+$sql = "insert into comment (project_id,comment,rating) values ({$_POST['project_id']},'".$_POST['text']."','".$_POST['rate']."')";
 if ($conn->query($sql) === TRUE) {
     echo '<div class="section-block"><input class="signup-input" type="text" style="color:black" value="'.$_POST['text'].'" disabled><br><span class="star-rating_given" style="font-size:1.75em">';
     for ($i =1; $i <= $_POST['rate']; $i++) {

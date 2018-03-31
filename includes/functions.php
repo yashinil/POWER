@@ -1,5 +1,5 @@
 <?php
-
+error_reporting(0);
 function redirect_to($new_location) {
     header("Location: " . $new_location);
     exit;
@@ -394,4 +394,20 @@ function find_recommended_projects($id){
     return $recommended;
 }
 
+function get_applicants_count($id){
+    global $conn;
+    $query="select * from applicant";
+    $result=mysqli_query($conn,$query);
+    $count=mysqli_num_rows($result);
+    return $count;
+}
+
+function apply_for_work($user,$id){
+    global $conn;
+    $query="insert into applicants (user_id,project_id) values ({$user},{$id})";
+    $result=mysqli_query($conn,$query);
+    $data=1;
+    return $data;
+    /*redirect_to("../project_details.php?project={$id}")*/
+}
 ?>

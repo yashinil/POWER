@@ -26,7 +26,7 @@ unset($_SESSION['flag_excess_amt']);
 $project=find_project_by_id($project_id);
 //print_r($project);
 $bool=get_project_type($project);
-echo $bool;
+//echo $bool;
 
 $progress=find_project_progress($project);
 //print_r($progress);
@@ -47,6 +47,8 @@ while($row3 = mysqli_fetch_assoc($result3)){
 $result4=mysqli_query($conn,$query4);
 $result6=mysqli_query($conn,$query3);
 $result7=mysqli_query($conn,$query7);
+$applicants=get_applicants_count($project_id);
+//echo $applicants;
 ?>
 <head>
 	<link href="assets/css/bootstrap.min.css" rel="stylesheet">
@@ -99,7 +101,7 @@ $result7=mysqli_query($conn,$query7);
 							else if($bool=="people"){ ?>
 
 							<h2><?php echo $project["project_people_hired"];?> </h2>
-							<span class="contribution">hired of <strong><?php echo "xyz"; ?></strong> applicants.</span>
+							<span class="contribution">hired of <strong><?php echo $applicants; ?></strong> applicants.</span>
 							<div class="progress">
 								<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $progress[0];?>%;">
 								</div>
@@ -117,7 +119,7 @@ $result7=mysqli_query($conn,$query7);
 							<span class="goal-progress"><strong><?php echo $progress[0];?> %</strong> of &#x20B9; <?php echo $project['project_funds'];?> raised</span>
 
 							<h2><?php echo $project["project_people_hired"];?> </h2>
-							<span class="contribution">hired of <strong><?php echo "xyz"; ?></strong> applicants.</span>
+							<span class="contribution">hired of <strong><?php echo $applicants; ?></strong> applicants.</span>
 							<div class="progress">
 								<div class="progress-bar progress-bar-striped active" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width: <?php echo $progress[1];?>%;">
 								</div>
@@ -145,11 +147,11 @@ $result7=mysqli_query($conn,$query7);
 						echo '<a href="payment.php?project_id='.$project_id.'" class="btn btn-launch">FUND THE PROJECT</a><br><br>';
 						}
 						else if($bool=="people"){
-							echo '<a href="#" class="btn btn-launch apply">APPLY FOR WORK</a><br><br>';
+							echo '<button class="btn btn-launch apply">APPLY FOR WORK</button><br><br>';
 						}
 						else if($bool=="both"){
 							echo '<a href="payment.php?project_id='.$project_id.'" class="btn btn-launch">FUND THE PROJECT</a><br><br>';
-							echo '<a href="#" class="btn btn-launch apply">APPLY FOR WORK</a><br><br>';
+							echo '<button class="btn btn-launch apply">APPLY FOR WORK</button><br><br>';
 						} 
 						?>
 					</div>
@@ -391,6 +393,8 @@ $result7=mysqli_query($conn,$query7);
 </script>
 <script type="text/javascript">
 var clicked=true;
+var project_id=<?php echo $project_id;?>;
+/*alert(project_id);*/
 $("#favourite").click(function(){
 	if(clicked){
    		$(this).css('background-color','red');
@@ -398,7 +402,8 @@ $("#favourite").click(function(){
         	url: 'modify.php',
         	type: 'POST',
         	data: {
-        		favourite:"selected"
+        		favourite:"selected",
+        		project_id:project_id
         	}        
     	}).done(function(data){
         	    //alert("success");
@@ -411,7 +416,8 @@ $("#favourite").click(function(){
         	url: 'modify.php',
         	type: 'POST',
         	data: {
-        		favourite: "notselected"
+        		favourite: "notselected",
+        		project_id:project_id
         	}        
     	}).done(function(data){
         	    //alert("favourite deleted");
@@ -429,7 +435,10 @@ $("#like_button").click(function(){
     	    $.ajax({
         	url: 'modify.php',
         	type: 'POST',
-        	data:{like_check:"selected",cnt: like_cnt}        
+        	data:{like_check:"selected",
+        		cnt: like_cnt,
+        		project_id:project_id
+        	}        
     	}).done(function(data){
         	    //alert(data);
     	});
@@ -444,6 +453,7 @@ $("#like_button").click(function(){
         	data: {
         		like_check: "notselected",
         		cnt:like_cnt,
+        		project_id: project_id
         	},
     	}).done(function(data){
         	    //alert("like deleted");
@@ -462,7 +472,8 @@ $("#report_button").click(function(){
         	type: 'POST',
         	data:{
         		report_check:"selected",
-        		rcnt: report_cnt
+        		rcnt: report_cnt,
+        		project_id:project_id
         	}        
     	}).done(function(data){
         	    //alert(data);
@@ -477,7 +488,8 @@ $("#report_button").click(function(){
         	type: 'POST',
         	data: {
         		report_check: "notselected",
-        		rcnt:like_cnt
+        		rcnt:like_cnt,
+        		project_id:project_id
         	}
     	}).done(function(data){
         	    //alert("like deleted");
@@ -488,6 +500,7 @@ $("#report_button").click(function(){
 
 
 $(document).ready(function(){
+
 	$("#comment_button").click(function(){
 		var text=$("#comment_data").val();
 		var rate=$("#comment_rating").val();
@@ -498,12 +511,18 @@ $(document).ready(function(){
         		comment_check: "selected",
         		text:text,
         		rate:rate,
+        		project_id:project_id
         	}
     	}).done(function(data){
     		alert(data);
     		$("#comment_data").val('');
             $("#block").append(data);
     	});
+	});
+
+	$(".apply").click(function(){
+		$(".apply").attr("disabled", "disabled");
+		<?php $data=apply_for_work($current_user['user_id'],$project_id);?>
 	});
 });
 </script>
