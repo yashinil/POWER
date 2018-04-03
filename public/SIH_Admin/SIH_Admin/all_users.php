@@ -2,7 +2,7 @@
 $servername = "localhost";
 $username = "root";
 $password = "";
-
+error_reporting(0);
 // Create connection
 $conn = mysqli_connect($servername, $username, $password,"power");
 
@@ -14,14 +14,10 @@ if ($conn->connect_error) {
 }
 // echo "Connected successfully";
 
-$query = "SELECT * FROM user";
-$user1 = mysqli_query($conn,$query);
 
-$query1= "SELECT * FROM individual";
-$individual = mysqli_query($conn,$query1);
 
-$query2= "SELECT * FROM organization";
-$organization = mysqli_query($conn,$query2);
+$query3 = "SELECT u.status,u.user_id,u.email,u.type,i.individual_name,i.aadhaar_number,i.mobile_number from user u , individual i where u.user_id=i.user_id";
+$ui = mysqli_query($conn,$query3);
 
  ?>
 
@@ -137,34 +133,41 @@ $organization = mysqli_query($conn,$query2);
 						</thead>
 						<tbody>
               <?php
-              while($result = mysqli_fetch_assoc($user1)){
-                    if($result['type']=="0" ){
-                      while($result1 = mysqli_fetch_assoc($individual)){
-                        echo "<tr class="."odd gradeX".">";
-                        echo "<td>"."Individual"."</td>";
-                        echo "<td>".$result1['aadhaar_number']."</td>";
-                        echo "<td>".$result1['individual_name']."</td>";
-                        echo "<td>".$result['email']."</td>";
-                        echo "<td>".$result1['mobile_number']."</td>";
-                      }
-                    }else if($result['type']=="1" ){
-                      while($result2 = mysqli_fetch_assoc($organization)){
-                        echo "<tr class="."odd gradeX".">";
-                        echo "<td>"."Organisation"."</td>";
-                        echo "<td>".$result2['pan_number']."</td>";
-                        echo "<td>".$result2['org_name']."</td>";
-                        echo "<td>".$result['email']."</td>";
-                        echo "<td>".$result2['mobile_number']."</td>";
-                      }
-                    }
+              // while($result = mysqli_fetch_assoc($ui)){
+              //       if($result['type']==0 ){
+              //         while($result1 = mysqli_fetch_assoc($individual)){
+              //           echo "<tr class="."odd gradeX".">";
+              //           echo "<td>"."Individual"."</td>";
+              //           echo "<td>".$result1['aadhaar_number']."</td>";
+              //           echo "<td>".$result1['individual_name']."</td>";
+              //           echo "<td>".$result['email']."</td>";
+              //           echo "<td>".$result1['mobile_number']."</td>";
+              //         }
+              //       }else if($result['type']==1){
+              //         while($result2 = mysqli_fetch_assoc($organization)){
+              //           echo "<tr class="."odd gradeX".">";
+              //           echo "<td>"."Organisation"."</td>";
+              //           echo "<td>".$result2['pan_number']."</td>";
+              //           echo "<td>".$result2['org_name']."</td>";
+              //           echo "<td>".$result['email']."</td>";
+              //           echo "<td>".$result2['mobile_number']."</td>";
+              //         }
+              //       }
+                  while($result= mysqli_fetch_assoc($ui)){
+                              echo "<tr class="."odd gradeX".">";
+                              echo "<td>"."Individual"."</td>";
+                              echo "<td>".$result['aadhaar_number']."</td>";
+                              echo "<td>".$result['individual_name']."</td>";
+                              echo "<td>".$result['email']."</td>";
+                              echo "<td>".$result['mobile_number']."</td>";
                      ?>
                      <?php
                      if($result['status']!=2){
                        ?>
                      <td><form action="all_users_block.php" method="post">
                     <center> <input type="submit" value = "Block" class="btn btn-default btn-danger">
-                       <input type="text" name="user_id" value="<?php echo $result['user_id']; ?>" hidden></td></center>
-                     </form>
+                       <input type="text" name="user_id" value="<?php echo $result['user_id']; ?>" hidden></form></center></td>
+
                    <?php }else{?>
                      <td>
                     <center> <input value = "Blocked" class="btn btn-default btn-danger" style="height:40px;width:75px" disabled></td></center>

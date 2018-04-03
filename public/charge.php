@@ -4,7 +4,7 @@
 <?php
 $current_user = $_SESSION["current_user"];
 $user_id = $current_user["user_id"];
-$user_type = $current_user["type"]; 
+$user_type = $current_user["type"];
 // $user_id = 5;
 $project_id = $_POST["project_id"];
 $amount=$_POST["amount"];
@@ -14,9 +14,9 @@ $transid=$_POST['razorpay_payment_id'];
 
 $transaction_status = null;
 if ($user_type==0&&$amount >= 100000) {
-	$transaction_status = 0; 
+	$transaction_status = 0;
 	$_SESSION['flag_excess_amt']=1;
-	
+
 } else if($user_type== 1 && amount>=1000000){
 	$transaction_status = 0;
 	$_SESSION['flag_excess_amt']=1;
@@ -47,7 +47,7 @@ mysqli_query($conn,$query);
 $query="SELECT project_category FROM project WHERE project_id='".$project_id."'";
 $result=mysqli_query($conn,$query);
 while($row=mysqli_fetch_assoc($result)){
-$project_category=$row['project_category'];}  
+$project_category=$row['project_category'];}
 $query="INSERT INTO donor (user_id,project_id,user_type,project_category,donation_amount,donation_type) VALUES ('".$user_id."','".$project_id."','".$user_type."','".$project_category."','".$amount."','".$donation_type."')";
 mysqli_query($conn,$query);
 
@@ -66,6 +66,7 @@ if($transaction_status==0){
 
 
 header("Location: project_details.php?project={$project_id}");
+header("Location: outlier.php");
 
 //include '/fpdf/receipt.php';
 ?>

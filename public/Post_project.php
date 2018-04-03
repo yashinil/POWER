@@ -97,7 +97,7 @@ else{
     <script type="text/javascript">
 
     function fundinfo(){
-    var wrapper = $(".field-wrapper");    
+    var wrapper = $(".field-wrapper");
     var fieldHTML1 = '<div class="form-group"><h3><label for="budget">Enter the budget of your project:</label></h3><input type="number" class="form-control" id="budget" placeholder="Budget in rupees" name="budget" required></div><br>';
     var fieldHTML2 = '<div class="form-group"><h3><label for="account_no">Enter the account number where you want your funds transfered:</label></h3><input type="number" class="form-control" id="account_no" placeholder="Account Number" name="account_no" required></div><br>';
     var fieldHTML3 = '<div class="form-group"><h3><label for="ifsc_code">Enter the IFSC code of your bank:</label></h3><input type="text" class="form-control" id="ifsc_code" placeholder="IFSC Code" name="ifsc_code" required></div><br>';
@@ -108,14 +108,14 @@ else{
   }
 
     function workerinfo(){
-    var wrapper = $(".field-wrapper");    
+    var wrapper = $(".field-wrapper");
     var fieldHTML = '<div class="form-group"><h3><label for="worker">Enter the number of workers for your project:</label></h3><input type="number" class="form-control" id="worker" placeholder="No. of workers required" name="worker" required></div><br>';
     $(wrapper).empty();
     $(wrapper).append(fieldHTML);
   }
 
     function bothinfo(){
-    var wrapper = $(".field-wrapper");    
+    var wrapper = $(".field-wrapper");
     $(wrapper).empty();
     var fieldHTML1 = '<div class="form-group"><h3><label for="budget">Enter the budget of your project:</label></h3><input type="number" class="form-control" id="budget" placeholder="Budget in rupees" name="budget" required></div><br>';
     $(wrapper).append(fieldHTML1);
@@ -133,4 +133,6 @@ else{
   </form>
 </div>
 </div>
-<?php include '../includes/layouts/page_footer.php';?>
+<?php
+exec("python ML_scripts/image_processing.py");
+include '../includes/layouts/page_footer.php';?>

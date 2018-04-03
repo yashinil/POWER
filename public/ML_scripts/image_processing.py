@@ -1,4 +1,12 @@
+#!/usr/bin/python
+# -*- coding: iso-8859-15 -*-
 
+#!/usr/local/bin/python
+# latin-1
+#!/usr/local/bin/python
+# -*- coding: utf-42 -*-
+
+#!/usr/bin/env python
 
 import pymysql.cursors
 import nltk
@@ -14,17 +22,7 @@ connection = pymysql.connect(host='localhost',
 
 
 try:
-    # with connection.cursor() as cursor:
-    #     # Create a new record
-    #     sql = "INSERT INTO `users` VALUES (%s, %s,%s,%s)"
-    #     cursor.execute(sql, ('webmaster@python.org', 'very-secret','abc','ann'))
-    #
-    # # connection is not autocommit by default. So you must commit to save
-    # # your changes.
-    # connection.commit()
 
-    #list of bad words
-    #select query
 
     with connection.cursor() as cursor:
         bad_words = ["4r5e","50 yard cunt punt†††","5h1t","5hit","a_s_s","a2m","a55","adult","amateur","anal","anal impaler†††","anal leakage†††","anilingus","anus","ar5e","arrse","arse","arsehole","ass","ass fuck†††","asses","assfucker","ass-fucker",
@@ -74,9 +72,9 @@ try:
               if score>=20:
                 score=20
 
-              project_score=(score/20)*100
+              project_score=(score*100)/20
 
-              url="C:\\xampp\\htdocs\\POWER\\public\\UploadsImages\\"+img
+              url="/Applications/XAMPP/xamppfiles/htdocs/POWER/public/UploadsImages/"+img
               client = SightengineClient("780030986", "Lq2ziDKPJUFqeRZcePQy")
               output1 = client.check('wad').set_file(url)
               output2 = client.check('nudity').set_file(url)
@@ -93,16 +91,13 @@ try:
 
               #calculate score based on the VALUES
               img_score = ((weapon + alcohol + drugs)*100 + (nudes_raw + nudes_partial)*100)/2
-              project_score=(project_score+image_score)/2
+              project_score=(project_score+img_score)/2
+              print(project_score)
 
               sql = "Update `project` set project_score = %s where project_id = %s"
               cursor.execute(sql,(project_score,project_id))
               connection.commit()
-      # Now print fetched result
 
-        # print(result)
-
-    # example="fuck my life sex motherfucker the sex ttye hsuhs fuck"
 
 
 

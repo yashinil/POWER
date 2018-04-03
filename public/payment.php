@@ -5,7 +5,7 @@ if (isset($_GET["project_id"])) { //project's id from project detail page
 $project_id = $_GET["project_id"];
 
 } else { //unauth access
-  
+
   header("Location: index.php");
   exit;
   $project_id = 1;
@@ -39,7 +39,7 @@ $project_id = $_GET["project_id"];
                                            {
                                           var urli= window.location.href;
                                           alert("Amount exceeds 50,000 therefore name cannot be anonymous");
-                                          location.replace(urli); }                
+                                          location.replace(urli); }
                       else if(document.getElementById("amount").value=="" || document.getElementById("amount").value==0)
                         {alert("Enter a valid amount");}
                       else
@@ -48,7 +48,7 @@ $project_id = $_GET["project_id"];
                           $('.razorpay-payment-button').click();
                       });
                       }
-                      }  
+                      }
                 </script>
                 <input type="text" name="project_id" value="<?php echo $project_id; ?>" hidden>
                  <input type="button" name="next" class="next action-button" value="Next" onclick="myfun()" />
@@ -56,7 +56,7 @@ $project_id = $_GET["project_id"];
             <fieldset>
               <h2>You Cancelled this Transaction</h2>
               <a href="payment.php"><h5>click here to go back</h5></a>
-            </fieldset> 
+            </fieldset>
           <script
               src="https://checkout.razorpay.com/v1/checkout.js"
               data-key="rzp_test_bFaWlZJvZIqxI1"
@@ -70,10 +70,11 @@ $project_id = $_GET["project_id"];
               data-theme.color="#F37254"></script>
           <input type="hidden" value="Hidden Element" name="hidden">
           </form>
-           
+
     </div>
     <div class="col-md-3"></div>
 
-</div> 
+</div>
 <!-- /.MultiStep Form -->
-<?php include '../includes/layouts/page_footer.php';?>
+<?php include '../includes/layouts/page_footer.php';
+?>

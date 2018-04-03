@@ -76,6 +76,7 @@ if (isset($current_user)) {
               <li><a href="category_page.php?category=Entertainment">Entertainment</a></li>
             </ul>
           </li>
+          
           <?php 
 
           if ($user_login == true) {
@@ -87,7 +88,7 @@ if (isset($current_user)) {
             echo "<li><a href=\"login_page.php\">Login</a></li>";
           }
           ?>
-          
+          <li class="menu"><a href="success_stories.php">Success Stories</a></li>
         </ul>
       </nav><!-- #nav-menu-container -->
     </div>

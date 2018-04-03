@@ -2,7 +2,7 @@
 function generate_OTP($user_mobile) {
 
     //for testing purpose
-    //return 123456;
+    return 123456;
     /*
      * Use sms gatewayhub for sms api
      * maintain the format
